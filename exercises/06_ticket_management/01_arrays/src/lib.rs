@@ -2,8 +2,10 @@
 
 pub struct WeekTemperatures {
     // TODO
+    temperatures: [Option<i32>; 7],
 }
 
+#[derive(PartialEq, PartialOrd)]
 pub enum Weekday {
     Monday,
     Tuesday,
@@ -16,15 +18,29 @@ pub enum Weekday {
 
 impl WeekTemperatures {
     pub fn new() -> Self {
-        todo!()
+        WeekTemperatures {
+            temperatures: [None, None, None, None, None, None, None],
+        }
     }
 
     pub fn get_temperature(&self, day: Weekday) -> Option<i32> {
-        todo!()
+        self.temperatures[WeekTemperatures::weekday_position(&day)]
     }
 
     pub fn set_temperature(&mut self, day: Weekday, temperature: i32) {
-        todo!()
+        self.temperatures[WeekTemperatures::weekday_position(&day)] = Some(temperature)
+    }
+
+    fn weekday_position(day: &Weekday) -> usize {
+        match day {
+            Weekday::Sunday => 6,
+            Weekday::Saturday => 5,
+            Weekday::Friday => 4,
+            Weekday::Thursday => 3,
+            Weekday::Wednesday => 2,
+            Weekday::Tuesday => 1,
+            _ => 0,
+        }
     }
 }
 
