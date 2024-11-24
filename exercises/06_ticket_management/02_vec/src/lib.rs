@@ -15,7 +15,32 @@ pub fn fibonacci(n: u32) -> u32 {
     //
     // Hint: use a `Vec` to memoize the results you have already calculated
     // so that you don't have to recalculate them several times.
-    todo!()
+    let mut fm = FiboMem::new();
+    fm.fibonacci(n)
+}
+
+struct FiboMem {
+    previous_results: Vec<u32>,
+}
+
+impl FiboMem {
+    pub fn new() -> Self {
+        FiboMem {
+            previous_results: vec![0, 1],
+        }
+    }
+
+    fn fibonacci(&mut self, n: u32) -> u32 {
+        let pos: usize = n.try_into().unwrap();
+        match self.previous_results.get(pos) {
+            Some(r) => *r,
+            None => {
+                let result = self.fibonacci(n - 2) + self.fibonacci(n - 1);
+                self.previous_results.push(result);
+                result
+            }
+        }
+    }
 }
 
 #[cfg(test)]
